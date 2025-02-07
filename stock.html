@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock Management</title>
   <style>
-   body {
+  body {
   font-family: Arial, sans-serif;
   margin: 20px;
   background-color: #F8F0F0;
@@ -56,7 +56,7 @@ th {
 input, select {
   padding: 8px;
   width: 100%;
-  box-sizing: border-box; /* Prevents overflow */
+  box-sizing: border-box;
 }
 
 button {
@@ -83,17 +83,12 @@ button:hover {
   padding: 10px;
 }
 
-/* Make Tables Scrollable on Mobile */
+/* Responsive Design */
 @media (max-width: 768px) {
   table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-  }
-
-  th, td {
-    padding: 8px;
-    font-size: 14px;
   }
 
   .nav {
@@ -108,15 +103,11 @@ button:hover {
     padding: 10px;
   }
 
-  button {
-    width: 100%; /* Make buttons take full width */
-    font-size: 16px;
-  }
-
-  input, select {
+  button, input, select {
     font-size: 16px;
   }
 }
+
 
   </style>
 </head>
