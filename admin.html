@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Stock Reports</title>
+  <style>
+   /* General Page Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #E9E6E6;
+  color: #333;
+}
+
+/* Page Title */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+/* Navigation Bar */
+.nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: #0056b3;
+}
+
+/* Logout Button */
+.logout-container {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  max-width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Logout Button */
+.logout-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  background-color: darkred;
+}
+/* Search Bar */
+.search-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#search-input {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#search-btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#search-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #B7CFD0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Table Headers */
+th {
+  background-color: #8D6F64;
+  color: white;
+  text-transform: uppercase;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+}
+
+/* Table Rows */
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternate Row Colors */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover Effect */
+tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Delete Button */
+.delete-btn {
+  padding: 8px 12px;
+  background-color: #FF4C4C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #e04a4a;
+}
+
+/* Section for Branches */
+.branch-section {
+  margin-top: 30px;
+}
+
+/* No Results Message */
+#no-results {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  display: none;
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  #search-input {
+    width: 100%;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="nav">
+    
+  
+    <a href="admin.html">Admin Panel</a>
+    <span class="logout-btn" onclick="logout()">Logout</span>
+  </div>
+
+  <h1>Admin - Stock Reports</h1>
+
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Search for a branch..." onkeyup="searchBranch()">
+  </div>
+
+  <div id="admin-reports">
+    <!-- Branch reports will be inserted here -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", loadReports);
+
+    function loadReports() {
+      const adminReports = document.getElementById("admin-reports");
+      adminReports.innerHTML = ""; // Clear previous content
+
+      const stockOutData = JSON.parse(localStorage.getItem("stockOutData")) || [];
+
+      if (stockOutData.length === 0) {
+        adminReports.innerHTML = "<p style='text-align: center;'>No stock-out records available.</p>";
+        return;
+      }
+
+      // Group data by branch
+      const groupedData = {};
+      stockOutData.forEach(record => {
+        const { branch, date, product, quantityOut } = record;
+        const key = `${branch}-${date}-${product}`; // Unique key to group by product and date
+
+        if (!groupedData[branch]) {
+          groupedData[branch] = {};
+        }
+        
+        if (!groupedData[branch][key]) {
+          groupedData[branch][key] = { date, product, quantityOut: 0 };
+        }
+
+        groupedData[branch][key].quantityOut += parseInt(quantityOut); // Sum up quantities
+      });
+
+      for (const branch in groupedData) {
+        // Create section for each branch
+        const branchSection = document.createElement("div");
+        branchSection.classList.add("branch-section");
+        branchSection.setAttribute("data-branch", branch.toLowerCase());
+
+        branchSection.innerHTML = `<h2>${branch}</h2>
+                                   <table>
+                                     <thead>
+                                       <tr>
+                                         <th>Date</th>
+                                         <th>Product</th>
+                                         <th>Quantity Out</th>
+                                         <th>Action</th>
+                                       </tr>
+                                     </thead>
+                                     <tbody id="table-${branch.replace(/\s+/g, '-')}"></tbody>
+                                   </table>`;
+
+        adminReports.appendChild(branchSection);
+
+        const tableBody = document.getElementById(`table-${branch.replace(/\s+/g, '-')}`);
+        Object.values(groupedData[branch]).forEach((record, index) => {
+          const row = `<tr>
+                         <td>${record.date}</td>
+                         <td>${record.product}</td>
+                         <td>${record.quantityOut}</td>
+                         <td><button class="delete-btn" onclick="deleteRecord('${branch}', '${record.date}', '${record.product}')">Delete</button></td>
+                       </tr>`;
+          tableBody.innerHTML += row;
+        });
+      }
+    }
+
+    function searchBranch() {
+      const searchTerm = document.getElementById("search-input").value.trim().toLowerCase();
+      const branchSections = document.querySelectorAll(".branch-section");
+      let found = false;
+
+      branchSections.forEach(section => {
+        const branchName = section.getAttribute("data-branch");
+        if (branchName.includes(searchTerm) || searchTerm === "") {
+          section.style.display = "block"; // Show matching branches
+          found = true;
+        } else {
+          section.style.display = "none"; // Hide non-matching branches
+        }
+      });
+
+      document.getElementById("no-results").style.display = found ? "none" : "block";
+    }
+
+    function deleteRecord(branch, date, product) {
+      let stockOutData = JSON.parse(localStorage.getItem("stockOutData")) || [];
+
+      // Remove all records matching the same branch, date, and product
+      stockOutData = stockOutData.filter(record => !(record.branch === branch && record.date === date && record.product === product));
+
+      localStorage.setItem("stockOutData", JSON.stringify(stockOutData));
+      loadReports(); // Refresh the reports
+    }
+
+     function logout() {
+  localStorage.removeItem("loggedInBranch"); 
+  window.location.href = "index.html"; // Adjust if necessary
+    }
+	function downloadCSV() {
+    let table = document.querySelector("table");
+    let rows = table.querySelectorAll("tr");
+    let csvContent = "";
+
+    rows.forEach(row => {
+        let cols = row.querySelectorAll("th, td");
+        let rowData = [];
+        cols.forEach(col => rowData.push(col.innerText));
+        csvContent += rowData.join(",") + "\n";
+    });
+
+    let blob = new Blob([csvContent], { type: "text/csv" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "admin_data.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function downloadPDF() {
+    let table = document.querySelector("table");
+    let rows = table.querySelectorAll("tr");
+    let pdfContent = "Admin Data Report\n\n";
+
+    rows.forEach(row => {
+        let cols = row.querySelectorAll("th, td");
+        let rowData = [];
+        cols.forEach(col => rowData.push(col.innerText));
+        pdfContent += rowData.join("\t") + "\n";
+    });
+
+    let blob = new Blob([pdfContent], { type: "application/pdf" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "admin_data.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+  </script>
+</body>
+</html>

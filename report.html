@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Out Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+	  background-color: #F8F0F0;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color:#C5E3BA;
+    }
+    .nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .nav a, .logout-btn {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .logout-btn {
+      color: red;
+      font-weight: bold;
+    }
+    #no-results {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="stock.html">Stock</a>
+    <a href="report.html">Stock Report</a>
+    
+    <span class="logout-btn" onclick="logout()">Logout</span>
+  </div>
+
+  <h1 id="page-title">Stock Out Report</h1>
+  <p id="no-results">No stock-out records found.</p>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Branch</th>
+        <th>Product</th>
+        <th>Quantity Out</th>
+      </tr>
+    </thead>
+    <tbody id="report-body">
+      <!-- Stock out records will be displayed here -->
+    </tbody>
+  </table>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const reportBody = document.getElementById("report-body");
+      const noResults = document.getElementById("no-results");
+      let stockOutData = JSON.parse(localStorage.getItem("stockOutData")) || [];
+
+      // Get logged-in branch name
+      const loggedInBranch = localStorage.getItem("loggedInBranch");
+
+      if (!loggedInBranch) {
+        alert("You must log in first!");
+        window.location.href = "login.html";
+        return;
+      }
+
+      if (loggedInBranch !== "Admin") {
+        document.getElementById("page-title").innerText = `${loggedInBranch} - Stock Out Report`;
+        stockOutData = stockOutData.filter(record => record.branch === loggedInBranch);
+      }
+
+      if (stockOutData.length === 0) {
+        noResults.style.display = "block"; // Show "no results" message
+        return;
+      }
+
+      // Grouping by Date & Product Name
+      let groupedData = {};
+      stockOutData.forEach(record => {
+        const key = `${record.date}-${record.product}`;
+        if (!groupedData[key]) {
+          groupedData[key] = {
+            date: record.date,
+            branch: record.branch,
+            product: record.product,
+            quantityOut: 0
+          };
+        }
+        groupedData[key].quantityOut += parseInt(record.quantityOut);
+      });
+
+      // Sort by Date (Newest First)
+      const sortedData = Object.values(groupedData).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      sortedData.forEach(record => {
+        const row = `<tr>
+                      <td>${record.date}</td>
+                      <td>${record.branch}</td>
+                      <td>${record.product}</td>
+                      <td>${record.quantityOut}</td>
+                    </tr>`;
+        reportBody.innerHTML += row;
+      });
+    });
+
+    function logout() {
+     localStorage.removeItem("loggedInBranch"); 
+     window.location.href = "index.html"; // Adjust if necessary
+    }
+  </script>
+</body>
+</html>

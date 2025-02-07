@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+	  background-color: #F8F0F0;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .nav {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #C5E3BA;
+    }
+    input, select {
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .logout-btn {
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="stock.html">Stock</a>
+    <a href="report.html">Stock Report</a>
+    
+    <span class="logout-btn" onclick="logout()">Logout</span>
+  </div>
+
+  <h1>Stock Management</h1>
+  <h2 id="branch-title"></h2>
+
+  <h2>PREMIUM STOCK</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity Out</th>
+        <th>Date</th>
+        <th>Update Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td>Bonel single layer</td>
+	  <td><input type="number" id="Bonel-single-layer-out" min="0" value="0"></td>
+      <td><input type="date" id="Bonel-single-layer-date"></td>
+      <td><button onclick="updateStock('Bonel single layer')">Update</button></td>
+    </tr>
+
+      <tr>
+        <td>Bonel double layer</td>
+        <td><input type="number" id="Bonel-double-layer-out" min="0" value="0"></td>
+        <td><input type="date" id="Bonel-double-layer-date"></td>
+        <td><button onclick="updateStock('Bonel double layer')">Update</button></td>
+      </tr>
+	  <tr>
+      <td>Bonluxe</td>
+	  <td><input type="number" id="Bonluxe-out" min="0" value="0"></td>
+      <td><input type="date" id="Bonluxe-date"></td>
+      <td><button onclick="updateStock('Bonluxe')">Update</button></td>
+    </tr>
+
+      <tr>
+        <td>Bonvisco</td>
+        <td><input type="number" id="Bonvisco-out" min="0" value="0"></td>
+        <td><input type="date" id="Bonvisco-date"></td>
+        <td><button onclick="updateStock('Bonvisco')">Update</button></td>
+      </tr>
+	  <tr>
+      <td>Bonnex</td>
+	  <td><input type="number" id="Bonnex-out" min="0" value="0"></td>
+      <td><input type="date" id="Bonnex-date"></td>
+      <td><button onclick="updateStock('Bonnex')">Update</button></td>
+    </tr>
+
+      <tr>
+        <td>Pocket Spring</td>
+        <td><input type="number" id="Pocket-Spring-out" min="0" value="0"></td>
+        <td><input type="date" id="Pocket-Spring-date"></td>
+        <td><button onclick="updateStock('Pocket Spring')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Pocket hybrid</td>
+        <td><input type="number" id="Pocket-hybrid-out" min="0" value="0"></td>
+        <td><input type="date" id="Pocket-hybrid-date"></td>
+        <td><button onclick="updateStock('Pocket hybrid')">Update</button></td>
+      </tr>
+	  <tr>
+      <td>Pocket hybrid extra firm</td>
+	  <td><input type="number" id="Pocket-hybrid-extra-firm-out" min="0" value="0"></td>
+      <td><input type="date" id="Pocket-hybrid-extra-firm-date"></td>
+      <td><button onclick="updateStock('Pocket hybrid extra firm')">Update</button></td>
+    </tr>
+
+      <tr>
+        <td>High density</td>
+        <td><input type="number" id="High-density-out" min="0" value="0"></td>
+        <td><input type="date" id="High-density-date"></td>
+        <td><button onclick="updateStock('High density')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Fit slip</td>
+        <td><input type="number" id="Fit-slip-out" min="0" value="0"></td>
+        <td><input type="date" id="Fit-slip-date"></td>
+        <td><button onclick="updateStock('Fit slip')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Orthopaedic</td>
+        <td><input type="number" id="Orthopaedic-out" min="0" value="0"></td>
+        <td><input type="date" id="Orthopaedic-date"></td>
+        <td><button onclick="updateStock('Orthopaedic')">Update</button></td>
+      </tr>
+	  
+	  <tr>
+      <td>Fibre pillow</td>
+	  <td><input type="number" id="Fibre-pillow-out" min="0" value="0"></td>
+      <td><input type="date" id="Fibre-pillow-date"></td>
+      <td><button onclick="updateStock('Fibre pillow')">Update</button></td>
+    </tr>
+
+      
+    </tbody>
+  </table>
+
+  <h2>STANDARD STOCK</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity Out</th>
+        <th>Date</th>
+        <th>Update Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Deluxe</td>
+        <td><input type="number" id="Deluxe-out" min="0" value="0"></td>
+        <td><input type="date" id="Deluxe-date"></td>
+        <td><button onclick="updateStock('Deluxe')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Deluxe quitted</td>
+        <td><input type="number" id="Deluxe-quitted-out" min="0" value="0"></td>
+        <td><input type="date" id="Deluxe-quitted-date"></td>
+        <td><button onclick="updateStock('Deluxe quitted')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Tape edge c</td>
+        <td><input type="number" id="Tape-edge-c-out" min="0" value="0"></td>
+        <td><input type="date" id="Tape-edge-c-date"></td>
+        <td><button onclick="updateStock('Tape edge c')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>Pvc</td>
+        <td><input type="number" id="Pvc-out" min="0" value="0"></td>
+        <td><input type="date" id="Pvc-date"></td>
+        <td><button onclick="updateStock('Pvc')">Update</button></td>
+      </tr>
+	  <tr>
+        <td>1foam sheet</td>
+        <td><input type="number" id="1foam-sheet-out" min="0" value="0"></td>
+        <td><input type="date" id="1foam-sheet-date"></td>
+        <td><button onclick="updateStock('1foam sheet')">Update</button></td>
+      </tr>
+      <tr>
+        <td>Ordinary pillow</td>
+        <td><input type="number" id="Ordinary-pillow-out" min="0" value="0"></td>
+        <td><input type="date" id="Ordinary-pillow-date"></td>
+        <td><button onclick="updateStock('Ordinary pillow')">Update</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+  function loadBranch() {
+    const savedBranch = localStorage.getItem("loggedInBranch");
+    if (savedBranch) {
+      document.getElementById("branch-title").textContent = savedBranch;
+    } else {
+      window.location.href = "login.html"; // Redirect if no branch is set
+    }
+  }
+
+  function updateStock(product) {
+  const productId = product.replace(/\s+/g, '-'); // Replace spaces with hyphens
+  const quantityOutElement = document.getElementById(`${productId}-out`);
+  const dateElement = document.getElementById(`${productId}-date`);
+
+  if (!quantityOutElement || !dateElement)
+ {
+      alert(`Error: Unable to find input fields for ${product}`);
+      return;
+    }
+
+    const quantityOut = parseInt(quantityOutElement.value);
+    const selectedDate = dateElement.value;
+    const branch = localStorage.getItem("loggedInBranch") || "Unknown Branch";
+
+    if (!selectedDate) {
+      alert("Please select a date.");
+      return;
+    }
+    if (quantityOut < 0 || isNaN(quantityOut)) {
+      alert("Please enter a valid quantity out.");
+      return;
+    }
+
+    // Save stock out data to localStorage
+    const stockOutData = JSON.parse(localStorage.getItem("stockOutData")) || [];
+    stockOutData.push({ date: selectedDate, branch, product, quantityOut });
+    localStorage.setItem("stockOutData", JSON.stringify(stockOutData));
+
+    quantityOutElement.value = 0;
+    dateElement.value = "";
+    alert(`Stock updated successfully for ${product}!`);
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedInBranch"); 
+    window.location.href = "index.html"; // Redirect to index page
+  }
+
+  document.addEventListener("DOMContentLoaded", loadBranch);
+</script>
+
+</body>
+</html>
