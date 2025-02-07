@@ -5,58 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock Management</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-	  background-color: #F8F0F0;
-    }
-    h1, h2 {
-      text-align: center;
-      color: #333;
-    }
-    .nav {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: bold;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #C5E3BA;
-    }
-    input, select {
-      padding: 5px;
-    }
-    button {
-      padding: 5px 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .logout-btn {
-      color: red;
-      font-weight: bold;
-      cursor: pointer;
-    }
+   body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #F8F0F0;
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Navigation */
+.nav {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+  display: inline-block;
+  padding: 8px 12px;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #C5E3BA;
+}
+
+/* Inputs and Buttons */
+input, select {
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box; /* Prevents overflow */
+}
+
+button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Logout Button */
+.logout-btn {
+  display: block;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+/* Make Tables Scrollable on Mobile */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav a {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+
+  button {
+    width: 100%; /* Make buttons take full width */
+    font-size: 16px;
+  }
+
+  input, select {
+    font-size: 16px;
+  }
+}
+
   </style>
 </head>
 <body>
