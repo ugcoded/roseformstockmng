@@ -73,12 +73,17 @@ h1 {
 /* Search Bar */
 .search-container {
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Space between input and button */
+  flex-wrap: wrap; /* Ensures proper wrapping on small screens */
 }
 
 #search-input {
   padding: 10px;
-  width: 150px;
+  width: 250px; /* Default width */
+  max-width: 100%; /* Prevents overflow */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -93,12 +98,30 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
+  white-space: nowrap; /* Prevents text from breaking */
 }
 
 #search-btn:hover {
   background-color: #0056b3;
 }
 
+/* Responsive Design */
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column; /* Stacks elements vertically */
+    align-items: center;
+  }
+
+  #search-input {
+    width: 90%; /* Expands to fit screen */
+    max-width: 300px;
+  }
+
+  #search-btn {
+    width: 90%; /* Makes the button full-width */
+    max-width: 300px;
+ 
+}
 /* Table Styling */
 table {
   width: 100%;
